@@ -1,0 +1,535 @@
+[
+  {
+    "name": "Ancient Weird Drake",
+    "level": 60,
+    "location": "Dragon Valley",
+    "respawnMinutes": 360
+  },
+  {
+    "name": "Ghost of the Well Lidia",
+    "level": 60,
+    "location": "Fields of Massacre",
+    "respawnMinutes": 360
+  },
+  {
+    "name": "Giant Marpanak",
+    "level": 60,
+    "location": "The Giant's Cave",
+    "respawnMinutes": 360
+  },
+  {
+    "name": "Guardian of the Statue of Giant Karum",
+    "level": 60,
+    "location": "The Giant's Cave",
+    "respawnMinutes": 360
+  },
+  {
+    "name": "Lord Ishka",
+    "level": 60,
+    "location": "Dragon Valley",
+    "respawnMinutes": 360
+  },
+  {
+    "name": "Taik High Prefect Arak",
+    "level": 60,
+    "location": "Forsaken Plains",
+    "respawnMinutes": 360
+  },
+  {
+    "name": "The 3rd Underwater Guardian",
+    "level": 60,
+    "location": "Garden of Eva",
+    "respawnMinutes": 360
+  },
+  {
+    "name": "Ranku",
+    "level": 60,
+    "location": "Enchanted Valley",
+    "respawnMinutes": 900,
+    "randomWindowMinutes": 0
+  },
+  {
+    "name": "Zaken",
+    "level": 60,
+    "location": "Devil's Isle",
+    "respawnMinutes": 2160,
+    "randomWindowMinutes": 0
+  },
+  {
+    "name": "Fairy Queen Timiniel",
+    "level": 61,
+    "location": "The Enchanted Valley",
+    "respawnMinutes": 360
+  },
+  {
+    "name": "Roaring Lord Kastor",
+    "level": 62,
+    "location": "Outlaw Forest",
+    "respawnMinutes": 360
+  },
+  {
+    "name": "Mordeo",
+    "level": 63,
+    "location": "Refugio secreto del Gremio de Pescadores",
+    "respawnMinutes": 1080,
+    "randomWindowMinutes": 0
+  },
+  {
+    "name": "Gorgolos",
+    "level": 64,
+    "location": "The Giant's Cave",
+    "respawnMinutes": 420
+  },
+  {
+    "name": "Enmity Ghost Ramdal",
+    "level": 65,
+    "location": "Tower of Insolence",
+    "respawnMinutes": 420
+  },
+  {
+    "name": "Fierce Tiger King Angel",
+    "level": 65,
+    "location": "Anghel Waterfall",
+    "respawnMinutes": 420
+  },
+  {
+    "name": "Gargoyle Lord Tiphon",
+    "level": 65,
+    "location": "Devastated Castle",
+    "respawnMinutes": 420
+  },
+  {
+    "name": "Hekaton Prime",
+    "level": 65,
+    "location": "The Giant's Cave",
+    "respawnMinutes": 420
+  },
+  {
+    "name": "Shilen's Priest Hisilrome",
+    "level": 65,
+    "location": "The Cemetery",
+    "respawnMinutes": 420
+  },
+  {
+    "name": "Cerberus",
+    "level": 65,
+    "location": "Enchanted Valley (Cementerio)",
+    "respawnMinutes": 1080,
+    "randomWindowMinutes": 0
+  },
+  {
+    "name": "Demon's Agent Falston",
+    "level": 66,
+    "location": "Valley of Saints",
+    "respawnMinutes": 420
+  },
+  {
+    "name": "Last Titan Utenus",
+    "level": 66,
+    "location": "The Giant's Cave",
+    "respawnMinutes": 420
+  },
+  {
+    "name": "Kernon's Faithful Servant Kelone",
+    "level": 67,
+    "location": "Blazing Swamp",
+    "respawnMinutes": 420
+  },
+  {
+    "name": "Bloody Priest Rudelto",
+    "level": 69,
+    "location": "Antharas' Lair",
+    "respawnMinutes": 480
+  },
+  {
+    "name": "Spirit of Andras, the Betrayer",
+    "level": 69,
+    "location": "Devastated Castle",
+    "respawnMinutes": 480
+  },
+  {
+    "name": "Anakim's Nemesis Zakaron",
+    "level": 70,
+    "location": "The Forest of Mirrors",
+    "respawnMinutes": 480
+  },
+  {
+    "name": "Beast Lord Behemoth",
+    "level": 70,
+    "location": "Border Outpost",
+    "respawnMinutes": 480
+  },
+  {
+    "name": "Fafurion's Herald Lokness",
+    "level": 70,
+    "location": "Heine",
+    "respawnMinutes": 480
+  },
+  {
+    "name": "Flame of Splendor Barakiel",
+    "level": 70,
+    "location": "Valley of Saints",
+    "respawnMinutes": 480
+  },
+  {
+    "name": "Korim",
+    "level": 70,
+    "location": "Tower of Insolence",
+    "respawnMinutes": 480
+  },
+  {
+    "name": "Meanas Anor",
+    "level": 70,
+    "location": "Blazing Swamp",
+    "respawnMinutes": 480
+  },
+  {
+    "name": "Palibati Queen Themis",
+    "level": 70,
+    "location": "The Forbidden Gateway",
+    "respawnMinutes": 480
+  },
+  {
+    "name": "Roaring Skylancer",
+    "level": 70,
+    "location": "Narsell Lake",
+    "respawnMinutes": 480
+  },
+  {
+    "name": "Immortal Savior Mardil",
+    "level": 71,
+    "location": "Tower of Insolence",
+    "respawnMinutes": 480
+  },
+  {
+    "name": "Doom Blade Tanatos",
+    "level": 72,
+    "location": "Ancient Battleground",
+    "respawnMinutes": 480
+  },
+  {
+    "name": "Vanor Chief Kandra",
+    "level": 72,
+    "location": "Garden of Beasts",
+    "respawnMinutes": 480
+  },
+  {
+    "name": "Water Dragon Seer Sheshark",
+    "level": 72,
+    "location": "Heine",
+    "respawnMinutes": 480
+  },
+  {
+    "name": "Death Lord Hallate",
+    "level": 73,
+    "location": "Tower of Insolence",
+    "respawnMinutes": 1500,
+    "randomWindowMinutes": 0
+  },
+  {
+    "name": "Antharas Priest Cloe",
+    "level": 74,
+    "location": "Antharas' Lair",
+    "respawnMinutes": 480
+  },
+  {
+    "name": "Krokian Padisha Sobekk",
+    "level": 74,
+    "location": "Northern Heine",
+    "respawnMinutes": 480
+  },
+  {
+    "name": "Kernon",
+    "level": 75,
+    "location": "Tower of Insolence",
+    "respawnMinutes": 600,
+    "randomWindowMinutes": 0
+  },
+  {
+    "name": "Baium",
+    "level": 75,
+    "location": "Tower of Insolence",
+    "respawnMinutes": 10080,
+    "randomWindowMinutes": 0
+  },
+  {
+    "name": "Storm Winged Naga",
+    "level": 75,
+    "location": "Blazing Swamp",
+    "respawnMinutes": 1440,
+    "randomWindowMinutes": 0
+  },
+  {
+    "name": "Last Lesser Giant Olkuth",
+    "level": 75,
+    "location": "Forsaken Plains",
+    "respawnMinutes": 1440,
+    "randomWindowMinutes": 0
+  },
+  {
+    "name": "Palatanos of Horrific Power",
+    "level": 75,
+    "location": "Blazing Swamp",
+    "respawnMinutes": 1440,
+    "randomWindowMinutes": 0
+  },
+  {
+    "name": "Bloody Empress Decarbia",
+    "level": 75,
+    "location": "The Forbidden Gateway",
+    "respawnMinutes": 1440,
+    "randomWindowMinutes": 0
+  },
+  {
+    "name": "Death Lord Ipos",
+    "level": 75,
+    "location": "Blazing Swamp",
+    "respawnMinutes": 1440,
+    "randomWindowMinutes": 0
+  },
+  {
+    "name": "Death Lord Shax",
+    "level": 75,
+    "location": "Fields of Massacre",
+    "respawnMinutes": 1440,
+    "randomWindowMinutes": 0
+  },
+  {
+    "name": "Benom",
+    "level": 75,
+    "location": "Rune Castle",
+    "respawnMinutes": 1440,
+    "randomWindowMinutes": 0
+  },
+  {
+    "name": "Ocean Flame Ashakiel",
+    "level": 76,
+    "location": "Heine",
+    "respawnMinutes": 1440,
+    "randomWindowMinutes": 0
+  },
+  {
+    "name": "Flamestone Giant",
+    "level": 76,
+    "location": "Blazing Swamp",
+    "respawnMinutes": 1440,
+    "randomWindowMinutes": 0
+  },
+  {
+    "name": "Fire of Wrath Shuriel",
+    "level": 78,
+    "location": "Tower of Insolence",
+    "respawnMinutes": 1440,
+    "randomWindowMinutes": 0
+  },
+  {
+    "name": "Last Lesser Giant Glaki",
+    "level": 78,
+    "location": "Silent Valley",
+    "respawnMinutes": 1440,
+    "randomWindowMinutes": 0
+  },
+  {
+    "name": "Daimon the White-Eyed",
+    "level": 78,
+    "location": "Wall of Argos",
+    "respawnMinutes": 1440,
+    "randomWindowMinutes": 0
+  },
+  {
+    "name": "Hestia, Guardian Deity of the Hot Springs",
+    "level": 78,
+    "location": "Rainbow Springs Chateau",
+    "respawnMinutes": 1440,
+    "randomWindowMinutes": 0
+  },
+  {
+    "name": "Longhorn Golkonda",
+    "level": 79,
+    "location": "Tower of Insolence",
+    "respawnMinutes": 1440,
+    "randomWindowMinutes": 0
+  },
+  {
+    "name": "Antharas",
+    "level": 79,
+    "location": "Antharas' Nest",
+    "respawnMinutes": 10080,
+    "randomWindowMinutes": 0
+  },
+  {
+    "name": "Cherub Galaxia",
+    "level": 79,
+    "location": "Tower of Insolence",
+    "respawnMinutes": 1440,
+    "randomWindowMinutes": 0
+  },
+  {
+    "name": "Lilith, Mother of Abyss",
+    "level": 80,
+    "location": "The Disciple's Necropolis",
+    "respawnMinutes": 1440,
+    "randomWindowMinutes": 0
+  },
+  {
+    "name": "Anakim, the Sacred Flame",
+    "level": 80,
+    "location": "The Disciple's Necropolis",
+    "respawnMinutes": 1440,
+    "randomWindowMinutes": 0
+  },
+  {
+    "name": "Ketra's Hero Hekaton",
+    "level": 80,
+    "location": "Ketra Orc Outpost",
+    "respawnMinutes": 1440,
+    "randomWindowMinutes": 0
+  },
+  {
+    "name": "Varka's Hero Shadith",
+    "level": 80,
+    "location": "Varka Silenos Outpost",
+    "respawnMinutes": 1440,
+    "randomWindowMinutes": 0
+  },
+  {
+    "name": "Queen Shyeed",
+    "level": 80,
+    "location": "Swamp of Screams",
+    "respawnMinutes": 1440,
+    "randomWindowMinutes": 0
+  },
+  {
+    "name": "Shadow of Halisha (Valkyrie Alectia of Flames)",
+    "level": 81,
+    "location": "Imperial Tomb",
+    "respawnMinutes": 1440,
+    "randomWindowMinutes": 0
+  },
+  {
+    "name": "Shadow of Halisha (Valkyrie Tishas of Calmness)",
+    "level": 81,
+    "location": "Imperial Tomb",
+    "respawnMinutes": 1440,
+    "randomWindowMinutes": 0
+  },
+  {
+    "name": "Shadow of Halisha (Valkyrie Meka Snowstorm)",
+    "level": 81,
+    "location": "Imperial Tomb",
+    "respawnMinutes": 1440,
+    "randomWindowMinutes": 0
+  },
+  {
+    "name": "Shadow of Halisha (Valkyrie Morigul of the Ivory Tower)",
+    "level": 81,
+    "location": "Imperial Tomb",
+    "respawnMinutes": 1440,
+    "randomWindowMinutes": 0
+  },
+  {
+    "name": "Ketra's Commander Tayr",
+    "level": 84,
+    "location": "Ketra Orc Outpost",
+    "respawnMinutes": 1440,
+    "randomWindowMinutes": 0
+  },
+  {
+    "name": "Varka's Commander Mos",
+    "level": 84,
+    "location": "Varka Silenos Outpost",
+    "respawnMinutes": 1440,
+    "randomWindowMinutes": 0
+  },
+  {
+    "name": "Valakas",
+    "level": 85,
+    "location": "Valakas' Lair",
+    "respawnMinutes": 10080,
+    "randomWindowMinutes": 0
+  },
+  {
+    "name": "Frintezza",
+    "level": 85,
+    "location": "Imperial Tomb",
+    "respawnMinutes": 2880,
+    "randomWindowMinutes": 0
+  },
+  {
+    "name": "Ember",
+    "level": 85,
+    "location": "Forge of the Gods",
+    "respawnMinutes": 4320,
+    "randomWindowMinutes": 0
+  },
+  {
+    "name": "Uruka",
+    "level": 86,
+    "location": "Primeval Isle",
+    "respawnMinutes": 4320,
+    "randomWindowMinutes": 0
+  },
+  {
+    "name": "Ketra's Chief Brakki",
+    "level": 87,
+    "location": "Ketra Orc Outpost",
+    "respawnMinutes": 4320,
+    "randomWindowMinutes": 0
+  },
+  {
+    "name": "Soul of Fire Nastron",
+    "level": 87,
+    "location": "Ketra Orc Outpost",
+    "respawnMinutes": 4320,
+    "randomWindowMinutes": 0
+  },
+  {
+    "name": "Varka's Chief Horus",
+    "level": 87,
+    "location": "Varka Silenos Outpost",
+    "respawnMinutes": 4320,
+    "randomWindowMinutes": 0
+  },
+  {
+    "name": "Soul of Water Ashutar",
+    "level": 87,
+    "location": "Varka Silenos Outpost",
+    "respawnMinutes": 4320,
+    "randomWindowMinutes": 0
+  },
+  {
+    "name": "Master Anays",
+    "level": 87,
+    "location": "Monastery of Silence",
+    "respawnMinutes": 4320,
+    "randomWindowMinutes": 0
+  },
+  {
+    "name": "High Priestess van Halter",
+    "level": 87,
+    "location": "Rune Township",
+    "respawnMinutes": 4320,
+    "randomWindowMinutes": 0
+  },
+  {
+    "name": "Sailren",
+    "level": 87,
+    "location": "Primeval Isle",
+    "respawnMinutes": 4320,
+    "randomWindowMinutes": 0
+  },
+  {
+    "name": "Gordon",
+    "level": 87,
+    "location": "Goddard Castle",
+    "respawnMinutes": 4320,
+    "randomWindowMinutes": 0
+  },
+  {
+    "name": "Scarlet van Halisha",
+    "level": 90,
+    "location": "Imperial Tomb",
+    "respawnMinutes": 4320,
+    "randomWindowMinutes": 0
+  }
+]

@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>L2 Raid Boss Timer — Interlude</title>
+<meta name="description" content="Administrador de tiempos de aparición de Raid Bosses para clanes de Lineage II Interlude.">
+
+<!-- Bootstrap 5 -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css" rel="stylesheet">
+<!-- Font Awesome -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet">
+<!-- Tipografías -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;900&family=Spectral:wght@400;500;600&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="bg-texture"></div>
+
+<div class="l2-app-frame">
+
+<!-- ============================================================
+     BARRA SUPERIOR
+     ============================================================ -->
+<header class="l2-topbar py-2">
+  <div class="container-fluid px-3 px-md-4">
+    <div class="d-flex flex-wrap align-items-center gap-2 gap-md-3">
+
+      <div class="l2-brand">
+        <i class="fa-solid fa-crown"></i>
+        <span>L2 Raid Boss <span class="text-gold">Timer</span></span>
+      </div>
+
+      <div class="l2-search-wrap flex-fill" style="min-width:220px; max-width:420px; position:relative;">
+        <i class="fa-solid fa-magnifying-glass"></i>
+        <input type="text" id="searchInput" class="form-control" placeholder="Buscar boss... ej: gol, hal">
+        <div id="searchDropdown" class="d-none position-absolute w-100 mt-1 p-1 rounded-3"
+             style="background: var(--bg-panel-raised); border: 1px solid var(--gold-line-strong); box-shadow: var(--shadow-panel); z-index: 1040; max-height: 320px; overflow-y:auto;"></div>
+      </div>
+
+      <div class="l2-stat-pill" id="activeCountPill"><strong>0</strong> activos</div>
+      <div class="l2-stat-pill" id="syncStatusPill" data-bs-toggle="tooltip" title="Estado de sincronización con la nube">
+        <i class="fa-solid fa-circle-notch fa-spin"></i> <span id="syncStatusText">Conectando…</span>
+      </div>
+      <div class="l2-clock" id="liveClockChile" data-bs-toggle="tooltip" title="Hora local de Chile">
+        🇨🇱 <span id="liveClockChileValue">00:00:00</span>
+      </div>
+      <div class="l2-clock" id="liveClockRusia" data-bs-toggle="tooltip" title="Hora del servidor (Rusia, GMT+3)">
+        🇷🇺 <span id="liveClockRusiaValue">00:00:00</span>
+      </div>
+
+      <div class="ms-auto d-flex align-items-center gap-2">
+        <button id="soundToggleBtn" class="btn-icon-l2" data-bs-toggle="tooltip" title="Sonido de alarma">
+          <i class="fa-solid fa-volume-high"></i>
+        </button>
+        <button id="notifyToggleBtn" class="btn-icon-l2" data-bs-toggle="tooltip" title="Notificaciones del navegador">
+          <i class="fa-solid fa-bell"></i>
+        </button>
+        <button id="openAdminBtn" class="btn-l2">
+          <i class="fa-solid fa-gear"></i> <span class="d-none d-sm-inline">Administración</span>
+        </button>
+        <button id="openEpicScheduleBtn" class="btn-l2" data-bs-toggle="tooltip" title="Horario semanal fijo de épicos (L2Eirin)">
+          <i class="fa-solid fa-calendar-week"></i> <span class="d-none d-sm-inline">Horario Épicos</span>
+        </button>
+        <button id="openEventScheduleBtn" class="btn-l2" data-bs-toggle="tooltip" title="Horario de eventos (TvT, CTF, etc.) + alarmas">
+          <i class="fa-solid fa-bell-concierge"></i> <span class="d-none d-sm-inline">Horario Eventos</span>
+        </button>
+        <button id="clearAllBtn" class="btn-l2 btn-l2-danger" data-bs-toggle="tooltip" title="Limpiar todos los timers">
+          <i class="fa-solid fa-broom"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- ============================================================
+     CONTENIDO PRINCIPAL
+     ============================================================ -->
+<main class="container-fluid px-3 px-md-4 py-4" style="position:relative; z-index:1;">
+
+  <div class="d-flex justify-content-between align-items-center flex-wrap gap-3 mb-3">
+    <h5 class="l2-section-title"><i class="fa-solid fa-scroll"></i> Raid Bosses de Interlude</h5>
+    <div class="l2-filters" id="filterBar">
+      <button class="l2-filter-btn active" data-filter="all"><i class="fa-solid fa-list"></i> Todos <span class="badge-count">0</span></button>
+      <button class="l2-filter-btn" data-filter="active"><i class="fa-solid fa-hourglass-half"></i> Activos <span class="badge-count">0</span></button>
+      <button class="l2-filter-btn" data-filter="available"><i class="fa-solid fa-skull"></i> Disponibles <span class="badge-count">0</span></button>
+      <button class="l2-filter-btn" data-filter="upcoming"><i class="fa-solid fa-triangle-exclamation"></i> Próximos <span class="badge-count">0</span></button>
+      <button class="l2-filter-btn" data-filter="favorites"><i class="fa-solid fa-star"></i> Favoritos <span class="badge-count">0</span></button>
+    </div>
+  </div>
+
+  <!-- Filtro por rango de nivel (de a 10), se genera dinámicamente según los bosses cargados -->
+  <div class="l2-filters mb-3" id="levelFilterBar"></div>
+
+  <hr class="l2-divider">
+
+  <div id="bossGrid"><!-- Las cards de bosses se inyectan dinámicamente desde app.js --></div>
+</main>
+
+<footer class="text-center text-muted-l2 py-4" style="font-family: var(--font-ui); font-size: 0.78rem; position:relative; z-index:1;">
+  L2 Raid Boss Timer — Herramienta no oficial para clanes de Lineage II Interlude. Los datos se guardan localmente en tu navegador.
+</footer>
+
+</div><!-- /.l2-app-frame -->
+
+<!-- ============================================================
+     MODAL: REGISTRAR TIEMPO (con imagen del boss seleccionado)
+     ============================================================ -->
+<div class="modal fade" id="registerModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content l2-modal">
+      <div class="modal-header">
+        <h5 class="modal-title"><i class="fa-solid fa-pen-clock me-2"></i>Elegir hora del kill</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+      </div>
+      <div class="modal-body">
+
+        <!-- Vista previa del boss seleccionado: SU IMAGEN, nombre, nivel y ubicación -->
+        <div class="selected-boss-preview mb-3">
+          <img id="registerBossImage" src="" alt="Boss seleccionado">
+          <div>
+            <div class="fw-bold" style="font-family: var(--font-display); color: var(--gold-bright);" id="registerBossName">—</div>
+            <div class="small text-muted-l2">
+              <span id="registerBossLevel">Lv—</span> ·
+              <i class="fa-solid fa-location-dot"></i> <span id="registerBossLocation">—</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">Hora en que fue anunciado/matado</label>
+          <input type="time" class="form-control" id="manualTimeInput">
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">Tiempo de respawn</label>
+          <div class="d-flex gap-1 align-items-center">
+            <input type="number" min="0" class="form-control" id="registerRespawnHours" style="width:65px;">
+            <span class="text-muted-l2 small">h</span>
+            <select class="form-select" id="registerRespawnMinutes" style="width:80px;">
+              <option value="0">00 min</option>
+              <option value="15">15 min</option>
+              <option value="30" selected>30 min</option>
+              <option value="45">45 min</option>
+            </select>
+            <span class="text-muted-l2 small ms-2">Ventana:</span>
+            <input type="number" min="0" class="form-control" id="registerRandomWindow" style="width:65px;" placeholder="0">
+            <span class="text-muted-l2 small">min</span>
+          </div>
+          <div class="form-text text-muted-l2">Ventana = variación random extra sobre el respawn (ej. Golkonda 8h + 30min de ventana). Se guardan como default de este boss.</div>
+        </div>
+
+        <hr class="l2-divider">
+
+        <div class="d-flex justify-content-around text-center">
+          <div>
+            <div class="small text-muted-l2 text-uppercase">Hora anuncio</div>
+            <div class="fs-4" style="font-family: var(--font-ui); color: var(--text-primary);" id="previewAnnounce">--:--</div>
+          </div>
+          <div class="align-self-center"><i class="fa-solid fa-arrow-right text-gold"></i></div>
+          <div>
+            <div class="small text-muted-l2 text-uppercase">Hora aparición</div>
+            <div class="fs-4 text-gold" style="font-family: var(--font-ui);" id="previewSpawn">--:--</div>
+          </div>
+        </div>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn-l2" data-bs-dismiss="modal">Cancelar</button>
+        <button type="button" class="btn-l2" id="confirmRegisterBtn"><i class="fa-solid fa-check me-1"></i> Registrar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================
+     MODAL: EDITAR HORA DE ANUNCIO
+     ============================================================ -->
+<div class="modal fade" id="editModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content l2-modal">
+      <div class="modal-header">
+        <h5 class="modal-title"><i class="fa-solid fa-pen me-2"></i>Editar hora de anuncio</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+      </div>
+      <div class="modal-body">
+        <div class="selected-boss-preview mb-3">
+          <img id="editBossImage" src="" alt="Boss">
+          <div class="fw-bold" style="font-family: var(--font-display); color: var(--gold-bright);" id="editBossName">—</div>
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Hora de anuncio</label>
+          <input type="time" class="form-control" id="editTimeInput">
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Tiempo de respawn</label>
+          <div class="d-flex gap-1 align-items-center">
+            <input type="number" min="0" class="form-control" id="editRespawnHours" style="width:65px;">
+            <span class="text-muted-l2 small">h</span>
+            <select class="form-select" id="editRespawnMinutes" style="width:80px;">
+              <option value="0">00 min</option>
+              <option value="15">15 min</option>
+              <option value="30" selected>30 min</option>
+              <option value="45">45 min</option>
+            </select>
+            <span class="text-muted-l2 small ms-2">Ventana:</span>
+            <input type="number" min="0" class="form-control" id="editRandomWindow" style="width:65px;" placeholder="0">
+            <span class="text-muted-l2 small">min</span>
+          </div>
+        </div>
+        <hr class="l2-divider">
+        <div class="d-flex justify-content-around text-center">
+          <div>
+            <div class="small text-muted-l2 text-uppercase">Hora anuncio</div>
+            <div class="fs-4" id="editPreviewAnnounce">--:--</div>
+          </div>
+          <div class="align-self-center"><i class="fa-solid fa-arrow-right text-gold"></i></div>
+          <div>
+            <div class="small text-muted-l2 text-uppercase">Hora aparición</div>
+            <div class="fs-4 text-gold" id="editPreviewSpawn">--:--</div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn-l2" data-bs-dismiss="modal">Cancelar</button>
+        <button type="button" class="btn-l2" id="confirmEditBtn"><i class="fa-solid fa-check me-1"></i> Guardar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================
+     MODAL: VER MAPA
+     ============================================================ -->
+<div class="modal fade" id="mapModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content l2-modal">
+      <div class="modal-header">
+        <h5 class="modal-title" id="mapModalTitle"><i class="fa-solid fa-map-location-dot me-2"></i>Mapa</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+      </div>
+      <div class="modal-body text-center">
+        <img id="mapModalImg" src="" alt="Mapa de ubicación" class="map-modal-img mb-3">
+        <div class="d-flex justify-content-center gap-4 flex-wrap">
+          <div><i class="fa-solid fa-location-dot text-gold me-1"></i><span id="mapModalLoc"></span></div>
+          <div style="font-family:'Courier New',monospace;" id="mapModalCoords"></div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn-l2" data-bs-dismiss="modal">Cerrar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================
+     MODAL: CONFIRMACIÓN GENÉRICA
+     ============================================================ -->
+<div class="modal fade" id="confirmModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-sm">
+    <div class="modal-content l2-modal">
+      <div class="modal-header">
+        <h5 class="modal-title"><i class="fa-solid fa-triangle-exclamation me-2"></i>Confirmar</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+      </div>
+      <div class="modal-body">
+        <p class="mb-0" id="confirmMessage">¿Estás seguro?</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn-l2" data-bs-dismiss="modal">Cancelar</button>
+        <button type="button" class="btn-l2 btn-l2-danger" id="confirmActionBtn">Confirmar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================
+     MODAL: PANEL DE ADMINISTRACIÓN
+     ============================================================ -->
+<div class="modal fade" id="adminModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-xl">
+    <div class="modal-content l2-modal">
+      <div class="modal-header">
+        <h5 class="modal-title"><i class="fa-solid fa-gear me-2"></i>Panel de Administración</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+      </div>
+      <div class="modal-body">
+
+        <ul class="nav nav-tabs mb-3" role="tablist">
+          <li class="nav-item"><button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tabCrud" type="button">
+            <i class="fa-solid fa-database me-1"></i> Bosses
+          </button></li>
+          <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#tabIO" type="button">
+            <i class="fa-solid fa-file-import me-1"></i> Importar / Exportar / Backup
+          </button></li>
+        </ul>
+
+        <div class="tab-content">
+          <!-- TAB: CRUD ------------------------------------------------ -->
+          <div class="tab-pane fade show active" id="tabCrud">
+            <div class="row g-4">
+              <div class="col-lg-5" id="adminFormPane">
+                <h6 class="l2-section-title mb-3" id="adminFormTitle"><i class="fa-solid fa-plus"></i> Agregar nuevo Raid Boss</h6>
+                <form id="adminForm">
+                  <input type="hidden" id="adminBossId">
+                  <div class="mb-2">
+                    <label class="form-label">Nombre</label>
+                    <input type="text" class="form-control" id="adminName" required>
+                  </div>
+                  <div class="row g-2 mb-2">
+                    <div class="col-6">
+                      <label class="form-label">Nivel <span class="text-muted-l2">(opcional)</span></label>
+                      <input type="number" min="1" class="form-control" id="adminLevel" placeholder="Sin definir">
+                    </div>
+                    <div class="col-6">
+                      <label class="form-label">Tiempo de respawn <span class="text-muted-l2">(opcional)</span></label>
+                      <div class="d-flex gap-1 align-items-center flex-wrap">
+                        <input type="number" min="0" class="form-control" id="adminRespawnHours" placeholder="0" style="width:60px;">
+                        <span class="text-muted-l2 small">h</span>
+                        <select class="form-select" id="adminRespawnMinutes" style="width:78px;">
+                          <option value="0">00 min</option>
+                          <option value="15">15 min</option>
+                          <option value="30" selected>30 min</option>
+                          <option value="45">45 min</option>
+                        </select>
+                        <input type="number" min="0" class="form-control" id="adminRandomWindow" placeholder="0" style="width:55px;" data-bs-toggle="tooltip" title="Ventana random extra (ej. 30 = puede tardar hasta 30 min más)">
+                        <span class="text-muted-l2 small">±min</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="mb-2">
+                    <label class="form-label">Ubicación <span class="text-muted-l2">(opcional)</span></label>
+                    <input type="text" class="form-control" id="adminLocation" placeholder="Sin especificar">
+                  </div>
+                  <div class="row g-2 mb-3">
+                    <div class="col-4">
+                      <label class="form-label">X</label>
+                      <input type="number" class="form-control" id="adminX" value="0">
+                    </div>
+                    <div class="col-4">
+                      <label class="form-label">Y</label>
+                      <input type="number" class="form-control" id="adminY" value="0">
+                    </div>
+                    <div class="col-4">
+                      <label class="form-label">Z</label>
+                      <input type="number" class="form-control" id="adminZ" value="0">
+                    </div>
+                  </div>
+
+                  <div class="mb-3">
+                    <label class="form-label"><i class="fa-solid fa-clock me-1"></i> Hora de anuncio / kill <span class="text-muted-l2">(opcional)</span></label>
+                    <div class="d-flex gap-2">
+                      <input type="time" class="form-control" id="adminAppearTime">
+                      <button type="button" class="btn-l2 text-nowrap" id="adminGenerateBtn">
+                        <i class="fa-solid fa-skull"></i> Generar
+                      </button>
+                    </div>
+                    <div class="form-text text-muted-l2" id="adminAppearPreview">
+                      Dejalo vacío y tocá "Generar" para usar la hora actual, o poné una hora manual y
+                      tocá "Generar" para usar esa. La card calcula sola la hora de aparición sumando
+                      el respawn (y la ventana random, si pusiste una) de arriba.
+                    </div>
+                  </div>
+
+                  <div class="row g-2 mb-3">
+                    <div class="col-6">
+                      <label class="form-label">🖼️ Imagen del boss</label>
+                      <label class="admin-dropzone d-block">
+                        <i class="fa-solid fa-image mb-1"></i><br>Elegir archivo
+                        <input type="file" accept="image/*" id="adminImageInput" class="d-none">
+                        <br><img id="adminImagePreview" src="img/bosses/placeholder.svg" alt="">
+                      </label>
+                    </div>
+                    <div class="col-6">
+                      <label class="form-label">🗺️ Imagen del mapa</label>
+                      <label class="admin-dropzone d-block">
+                        <i class="fa-solid fa-map mb-1"></i><br>Elegir archivo
+                        <input type="file" accept="image/*" id="adminMapInput" class="d-none">
+                        <br><img id="adminMapPreview" src="img/bosses/placeholder.svg" alt="">
+                      </label>
+                    </div>
+                  </div>
+
+                  <div class="d-flex gap-2">
+                    <button type="submit" class="btn-l2 flex-fill" id="adminSubmitBtn"><i class="fa-solid fa-plus me-1"></i> Agregar Boss</button>
+                    <button type="button" class="btn-l2" id="adminCancelEditBtn">Cancelar</button>
+                  </div>
+                </form>
+              </div>
+
+              <div class="col-lg-7">
+                <h6 class="l2-section-title mb-3"><i class="fa-solid fa-list"></i> Base de datos actual</h6>
+                <div style="max-height: 480px; overflow-y:auto;">
+                  <table class="table admin-table align-middle">
+                    <thead>
+                      <tr><th>Img</th><th>Nombre</th><th>Lv</th><th>Ubicación</th><th>Respawn</th><th></th></tr>
+                    </thead>
+                    <tbody id="adminTableBody"></tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- TAB: IMPORT/EXPORT/BACKUP --------------------------------- -->
+          <div class="tab-pane fade" id="tabIO">
+            <div class="row g-4">
+              <div class="col-md-6">
+                <h6 class="l2-section-title mb-2"><i class="fa-solid fa-database"></i> Base de datos de bosses (JSON)</h6>
+                <p class="text-muted-l2 small">Exportá la lista completa de Raid Bosses para respaldarla o compartirla con otro clan, o importá una lista existente — <strong>se suma</strong> a la que ya tenés (no la reemplaza; los bosses con el mismo nombre se omiten).</p>
+                <div class="d-flex gap-2 flex-wrap">
+                  <button class="btn-l2" id="adminExportBtn"><i class="fa-solid fa-file-export me-1"></i> Exportar bosses.json</button>
+                  <label class="btn-l2" style="cursor:pointer;">
+                    <i class="fa-solid fa-file-import me-1"></i> Importar JSON
+                    <input type="file" accept="application/json" id="adminImportInput" class="d-none">
+                  </label>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <h6 class="l2-section-title mb-2"><i class="fa-solid fa-clock-rotate-left"></i> Respaldo completo (timers + favoritos + historial)</h6>
+                <p class="text-muted-l2 small">Guardá o restaurá TODO el estado de la app: bosses, timers activos, favoritos e historial.</p>
+                <div class="d-flex gap-2 flex-wrap">
+                  <button class="btn-l2" id="adminBackupBtn"><i class="fa-solid fa-download me-1"></i> Generar respaldo</button>
+                  <label class="btn-l2" style="cursor:pointer;">
+                    <i class="fa-solid fa-upload me-1"></i> Restaurar respaldo
+                    <input type="file" accept="application/json" id="adminRestoreInput" class="d-none">
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn-l2" data-bs-dismiss="modal">Cerrar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================
+     MODAL: HORARIO FIJO DE ÉPICOS (L2Eirin x300 - New Server)
+     ============================================================ -->
+<div class="modal fade" id="epicScheduleModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content l2-modal">
+      <div class="modal-header">
+        <h5 class="modal-title"><i class="fa-solid fa-calendar-week me-2"></i>Horario Fijo de Épicos — L2Eirin x300 (New Server)</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+      </div>
+      <div class="modal-body">
+        <div class="alert" style="background: rgba(201,162,75,0.1); border: 1px solid var(--gold-line-strong); color: var(--text-primary); font-family: var(--font-ui); font-size: 0.85rem;">
+          <i class="fa-solid fa-circle-info me-1 text-gold"></i>
+          Los épicos <strong>no respawnean por "kill + tiempo"</strong> en este server: tienen un
+          <strong>horario semanal fijo</strong> (según la wiki oficial de L2Eirin). Por eso no aparecen
+          en las cartas normales de arriba — acá tenés el cronograma de referencia.
+          Todas las horas están en <strong>GMT+3</strong> (huso horario del server), convertilas a tu zona horaria local.
+        </div>
+        <div style="max-height: 420px; overflow-y:auto;">
+          <table class="table admin-table align-middle">
+            <thead><tr><th>Boss</th><th>Nivel</th><th>Días</th><th>Horario (GMT+3)</th></tr></thead>
+            <tbody id="epicScheduleTableBody"></tbody>
+          </table>
+        </div>
+        <p class="text-muted-l2 small mb-0">Fuente: l2eirin.com/en/wiki-interlude-x300 — tabla "New Server". Si tu servidor actualiza este cronograma, podés ajustarlo editando <code>EPIC_SCHEDULE_EIRIN_NEW</code> en <code>bosses.js</code>.</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn-l2" data-bs-dismiss="modal">Cerrar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================
+     MODAL: HORARIO DE EVENTOS (L2Eirin x300 - New Server) + ALARMAS
+     ============================================================ -->
+<div class="modal fade" id="eventScheduleModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content l2-modal">
+      <div class="modal-header">
+        <h5 class="modal-title"><i class="fa-solid fa-bell-concierge me-2"></i>Horario de Eventos — L2Eirin x300 (New Server)</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+      </div>
+      <div class="modal-body">
+        <div class="alert" style="background: rgba(201,162,75,0.1); border: 1px solid var(--gold-line-strong); color: var(--text-primary); font-family: var(--font-ui); font-size: 0.85rem;">
+          <i class="fa-solid fa-circle-info me-1 text-gold"></i>
+          Activá la 🔔 de un evento para recibir una <strong>notificación del navegador + alarma sonora</strong>
+          antes de que empiece (necesita que hayas aceptado los permisos de notificación, y que esta pestaña
+          siga abierta). Se recalcula solo para la próxima ocurrencia de cada evento.
+        </div>
+
+        <div class="d-flex align-items-center gap-2 mb-3">
+          <label class="form-label mb-0">Avisarme</label>
+          <input type="number" min="1" max="60" class="form-control" id="eventAlarmLeadMinutes" style="width:70px;" value="5">
+          <label class="form-label mb-0">minutos antes</label>
+        </div>
+
+        <div style="max-height: 420px; overflow-y:auto;">
+          <table class="table admin-table align-middle">
+            <thead>
+              <tr>
+                <th>Evento</th><th>Días</th><th>Próxima hora 🇨🇱 Chile</th><th>Próxima hora 🇷🇺 Rusia</th><th class="text-end">Alarma</th>
+              </tr>
+            </thead>
+            <tbody id="eventScheduleTableBody"></tbody>
+          </table>
+        </div>
+        <p class="text-muted-l2 small mb-0">Fuente: l2eirin.com/en/wiki-interlude-x300 — sección "Events". Las horas de Chile se recalculan solas según tu reloj; si tu servidor cambia estos horarios, ajustalos en <code>EVENT_SCHEDULE_EIRIN_NEW</code> dentro de <code>bosses.js</code>.</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn-l2" data-bs-dismiss="modal">Cerrar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Contenedor de Toasts -->
+<div class="toast-container l2-toast-container position-fixed bottom-0 end-0 p-3" id="toastContainer"></div>
+
+<!-- Audio de alarma (beep sintetizado en base64, no requiere archivos externos) -->
+<audio id="alarmAudio" src="sounds/alarm.wav" preload="auto"></audio>
+
+<!-- Scripts -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.bundle.min.js"></script>
+
+<!-- Firebase (Realtime Database) — sincroniza bosses/timers/favoritos entre
+     todos los dispositivos conectados. Si firebase-config.js sigue con los
+     valores de ejemplo, la app sigue funcionando 100% local (LocalStorage). -->
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script>
+<script src="firebase-config.js"></script>
+
+<script src="bosses.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
