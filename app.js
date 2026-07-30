@@ -721,10 +721,13 @@
             ${countdownBlock}
             ${status.registered ? '' : `
             <div class="boss-card__register">
-              <button class="btn-l2 flex-fill" data-action="register-now" data-id="${boss.id}">
+              <button class="btn-l2 flex-fill" data-action="register-now" data-id="${boss.id}" data-bs-toggle="tooltip" title="Usa el respawn configurado del boss (${Math.floor(boss.respawnMinutes/60)}h ${boss.respawnMinutes%60}min)">
                 <i class="fa-solid fa-skull"></i> Kill ahora
               </button>
-              <button class="btn-icon-l2" data-action="register-manual" data-id="${boss.id}" data-bs-toggle="tooltip" title="Elegir hora manual">
+              <button class="btn-icon-l2" data-action="register-chatmark" data-id="${boss.id}" data-bs-toggle="tooltip" title="ChatMark: 30 min fijos desde el aviso del chat (ignora el respawn del boss)">
+                <i class="fa-solid fa-comment-dots"></i>
+              </button>
+              <button class="btn-icon-l2" data-action="register-manual" data-id="${boss.id}" data-bs-toggle="tooltip" title="Elegir hora y respawn manual">
                 <i class="fa-solid fa-pen-clock"></i>
               </button>
             </div>`}
@@ -1460,6 +1463,16 @@
           case 'register-manual':
             Modals.openRegister(id);
             break;
+          case 'register-chatmark': {
+            const boss = Data.getBossById(id);
+            // ChatMark: siempre 30 minutos fijos desde la hora actual, sin importar
+            // el respawn configurado del boss (para cuando el aviso del chat del
+            // juego dice "aparece en 30 min", independiente del respawn real).
+            Timer.registerNow(id, 30, 0);
+            Render.all();
+            App.toast(`${boss.name}: ChatMark registrado (30 min desde ahora)`, 'success');
+            break;
+          }
           case 'edit': Modals.openEdit(id); break;
           case 'reset': {
             const boss = Data.getBossById(id);
