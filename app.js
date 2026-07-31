@@ -658,6 +658,7 @@
         else if (status.state === 'window') countdownValue = '¡PUEDE APARECER YA!';
         else countdownValue = Utils.formatCountdown(status.remainingMs);
 
+<<<<<<< HEAD
         const upActionsBlock = (status.state === 'up' || status.state === 'window') ? `
           <div class="boss-card__register">
             <button class="btn-l2 flex-fill" data-action="reset" data-id="${boss.id}" data-bs-toggle="tooltip" title="Volver a matarlo ahora, con el respawn configurado del boss">
@@ -668,6 +669,8 @@
             </button>
           </div>` : '';
 
+=======
+>>>>>>> e68682b213ed388403039ab9b9cdcfe20e6c7b93
         countdownBlock = `
           <div class="boss-card__up-banner"><i class="fa-solid fa-skull-crossbones me-1"></i> ${status.state === 'window' ? '¡PUEDE APARECER YA!' : '¡¡DISPONIBLE!!'}</div>
           <div class="boss-card__countdown">
@@ -675,8 +678,12 @@
           </div>
           <div class="boss-card__progress">
             <div class="boss-card__progress-bar" style="width:${status.state === 'up' || status.state === 'window' ? 100 : remainingPct}%"></div>
+<<<<<<< HEAD
           </div>
           ${upActionsBlock}`;
+=======
+          </div>`;
+>>>>>>> e68682b213ed388403039ab9b9cdcfe20e6c7b93
 
         actionsExtra = `
           <button class="btn-icon-l2" data-action="edit" data-id="${boss.id}" data-bs-toggle="tooltip" title="Editar hora">
@@ -1492,6 +1499,7 @@
             App.toast(`${boss.name} reiniciado con hora actual`, 'success');
             break;
           }
+<<<<<<< HEAD
           case 'clear-unknown': {
             const boss = Data.getBossById(id);
             Timer.clear(id);
@@ -1499,6 +1507,8 @@
             App.toast(`${boss.name}: timer limpiado (sin hora conocida)`, 'info');
             break;
           }
+=======
+>>>>>>> e68682b213ed388403039ab9b9cdcfe20e6c7b93
           case 'edit-boss':
             adminModal.show();
             Admin.renderTable();
